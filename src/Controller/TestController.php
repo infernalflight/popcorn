@@ -33,7 +33,6 @@ class TestController extends AbstractController
     #[Route('/test_update/{id}', name: 'app_test_update', requirements: ['id' => '\d+'])]
     public function testUpdate(SerieRepository $serieRepository, EntityManagerInterface $em, int $id): Response
     {
-
         $serie = $serieRepository->find($id);
 
         $serie->setOverview('Buffy en a fini avec les démons');
