@@ -47,4 +47,21 @@ class SerieController extends AbstractController
             'nbPagesMax' => ceil($nbTotal / $nbByPage),
         ]);
     }
+
+    #[Route('/serie/detail/{id}', name:'app_wish', requirements: ['id' => '\d+'])]
+    public function detail(int $id, SerieRepository $serieRepository): Response
+    {
+        //$serie = $serieRepository->getTheSerie('nostrue dignissimos quae molestiae soluta labore');
+        $serie = $serieRepository->find($id);
+        //$serie = $serieRepository->findOneBy(['name' => '']);
+
+
+
+
+        return $this->render('serie/detail.html.twig', [
+            'serie' => $serie,
+        ]);
+    }
+
+
 }

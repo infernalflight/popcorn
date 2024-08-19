@@ -45,6 +45,17 @@ class SerieRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getTheSerie(string $title): ?Serie
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.name = :title')
+            ->setParameter(':title', $title)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+
     public function getBestSeriesInDQL(): array
     {
         $dql = "SELECT s FROM App\Entity\Serie AS s 

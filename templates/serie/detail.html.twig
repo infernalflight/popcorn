@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Détail</h1>
+
+    {%  if serie is empty %}
+        Pas de série de cet id
+
+    {% else %}
+    <ul>
+        <li>{{ serie.id }}</li>
+        <li>{{ serie.name }}</li>
+        <li>{{ serie.overview }}</li>
+        <li>{{ serie.firstAirDate|date('d/m/Y') }}</li>
+        <li>{{ serie.status }}</li>
+    </ul>
+    {% endif %}
+
+{% endblock %}
