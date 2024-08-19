@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +32,8 @@ class SerieController extends AbstractController
             $offset
         );
 
+        $series = $serieRepository->findAll();
+
         // Requete avec QueryBuilder
 //        $series = $serieRepository->findBestSeriesWithSpecificGenre(['Gore', 'Drama']);
 
@@ -56,6 +59,16 @@ class SerieController extends AbstractController
 
         return $this->render('serie/detail.html.twig', [
             'serie' => $serie,
+        ]);
+    }
+
+    #[Route('/create', name: '_create')]
+    public function create(): Response
+    {
+        $form = $this->createForm(SerieType::class);
+
+        return $this->render('serie/edit.html.twig', [
+            'serie_form' => $form
         ]);
     }
 
