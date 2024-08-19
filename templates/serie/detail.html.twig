@@ -1,12 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),
+            url("{{ asset("contrib/backdrops/" ~ serie.backdrop) }}");
+        }
+    </style>
 
-    <h1>Détail</h1>
+    <h1>{{ serie.name }}</h1>
 
     {%  if serie is empty %}
         Pas de série de cet id
-
     {% else %}
     <ul>
         <li>{{ serie.id }}</li>

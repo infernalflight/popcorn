@@ -19,7 +19,7 @@ class SerieController extends AbstractController
         // requête avec Méthode native du Repository
         // $series = $serieRepository->findAll();
 
-        $criterias = ['status' => 'returning', 'genres' => 'gore'];
+        $criterias = ['status' => 'returning'];
 
         $nbTotal = $serieRepository->count($criterias);
 
