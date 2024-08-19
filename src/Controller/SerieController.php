@@ -7,14 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/series', name: 'app_serie')]
 class SerieController extends AbstractController
 {
-    #[Route('/series/{page}', name: 'app_serie_list', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
+    #[Route('/list/{page}', name: '_list', requirements: ['page' => '\d+'], defaults: ['page' => 1], methods: ['GET'])]
     public function list(SerieRepository $serieRepository, int $page): Response
     {
         $nbByPage = 10;
         $offset = ($page-1) * $nbByPage;
 
+        // requête avec Méthode native du Repository
         // $series = $serieRepository->findAll();
 
         $criterias = ['status' => 'returning', 'genres' => 'gore'];
@@ -29,7 +31,6 @@ class SerieController extends AbstractController
             $offset
         );
 
-
         // Requete avec QueryBuilder
 //        $series = $serieRepository->findBestSeriesWithSpecificGenre(['Gore', 'Drama']);
 
@@ -39,8 +40,6 @@ class SerieController extends AbstractController
         // requete avec SQL brut
 //        $series = $serieRepository->getBestSeriesInRawSQL();
 
-
-
         return $this->render('serie/index.html.twig', [
             'series' => $series,
             'page' => $page,
@@ -48,15 +47,12 @@ class SerieController extends AbstractController
         ]);
     }
 
-    #[Route('/serie/detail/{id}', name:'app_wish', requirements: ['id' => '\d+'])]
+    #[Route('/detail/{id}', name:'_detail', requirements: ['id' => '\d+'])]
     public function detail(int $id, SerieRepository $serieRepository): Response
     {
         //$serie = $serieRepository->getTheSerie('nostrue dignissimos quae molestiae soluta labore');
         $serie = $serieRepository->find($id);
         //$serie = $serieRepository->findOneBy(['name' => '']);
-
-
-
 
         return $this->render('serie/detail.html.twig', [
             'serie' => $serie,
