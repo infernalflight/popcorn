@@ -5,9 +5,13 @@ namespace App\Entity;
 use App\Repository\SerieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SerieRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\UniqueConstraint(columns: ['name', 'first_air_date'])]
+#[UniqueEntity(fields: ['name', 'firstAirDate'], message: 'Une série avec ce titre et cette date existe déja')]
 class Serie
 {
     #[ORM\Id]
@@ -16,6 +20,13 @@ class Serie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Il faut un titre à ta série !!!')]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Ton titre est un peu trop court. Il faut au moins {{ limit }} caractères.',
+        max: 15,
+        maxMessage: 'Ton titre est bcq trop long. Il faut {{ limit }} caractères max'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -25,6 +36,7 @@ class Serie
     private ?string $status = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(min: 0, max: 10, notInRangeMessage: 'Un vote doit etre compris entre {{ min }} et {{ max }}')]
     private ?float $vote = null;
 
     #[ORM\Column(nullable: true)]
@@ -34,9 +46,11 @@ class Serie
     private ?string $genres = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\LessThan('today')]
     private ?\DateTimeInterface $firstAirDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\GreaterThan(propertyPath: 'firstAirDate')]
     private ?\DateTimeInterface $lastAirDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]

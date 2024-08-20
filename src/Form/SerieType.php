@@ -18,6 +18,7 @@ class SerieType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'required' => false,
                 'row_attr' => [
                     'class' => 'input-group mb-3'
                 ]

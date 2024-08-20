@@ -72,13 +72,13 @@ class SerieController extends AbstractController
         $form = $this->createForm(SerieType::class, $serie);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($serie);
             $em->flush();
 
             $this->addFlash('success', 'Une série a été enregistrée');
 
-            return $this->redirectToRoute('app_serie_list');
+            return $this->redirectToRoute('app_serie_detail', ['id' => $serie->getId()]);
         }
 
         return $this->render('serie/edit.html.twig', [
@@ -93,12 +93,12 @@ class SerieController extends AbstractController
         $form = $this->createForm(SerieType::class, $serie);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
             $this->addFlash('success', 'Une série a été modifiée');
 
-            return $this->redirectToRoute('app_serie_list');
+            return $this->redirectToRoute('app_serie_detail', ['id' => $serie->getId()]);
         }
 
         return $this->render('serie/edit.html.twig', [
