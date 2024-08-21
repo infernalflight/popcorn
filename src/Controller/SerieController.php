@@ -54,11 +54,12 @@ class SerieController extends AbstractController
     }
 
     #[Route('/detail/{id}', name:'_detail', requirements: ['id' => '\d+'])]
-    public function detail(int $id, SerieRepository $serieRepository): Response
+    public function detail(Serie $serie): Response
     {
         //$serie = $serieRepository->getTheSerie('nostrue dignissimos quae molestiae soluta labore');
-        $serie = $serieRepository->find($id);
         //$serie = $serieRepository->findOneBy(['name' => '']);
+
+        // $serie = $serieRepository->find($id);
 
         return $this->render('serie/detail.html.twig', [
             'serie' => $serie,
@@ -87,9 +88,8 @@ class SerieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: '_update', requirements: ['id' => '\d+'])]
-    public function update(Request $request, EntityManagerInterface $em, SerieRepository $serieRepository, int $id): Response
+    public function update(Request $request, EntityManagerInterface $em, Serie $serie): Response
     {
-        $serie = $serieRepository->find($id);
         $form = $this->createForm(SerieType::class, $serie);
         $form->handleRequest($request);
 

@@ -31,10 +31,8 @@ class TestController extends AbstractController
     }
 
     #[Route('/test_update/{id}', name: 'app_test_update', requirements: ['id' => '\d+'])]
-    public function testUpdate(SerieRepository $serieRepository, EntityManagerInterface $em, int $id): Response
+    public function testUpdate(EntityManagerInterface $em, Serie $serie): Response
     {
-        $serie = $serieRepository->find($id);
-
         $serie->setOverview('Buffy en a fini avec les démons');
         $serie->setDateModified(new \DateTime());
 
