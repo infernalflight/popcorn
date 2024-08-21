@@ -111,4 +111,19 @@ class SerieController extends AbstractController
         ]);
     }
 
+    #[Route('/delete/{id}', name: '_delete', requirements: ['id' => '\d+'])]
+    public function delete(Request $request, EntityManagerInterface $em, Serie $serie): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $serie->getId(), $request->get('token'))) {
+            $em->remove($serie);
+            $em->flush();
+
+            $this->addFlash('success', 'Une série a été supprimée');
+        } else {
+            $this->addFlash('danger', 'Cette opération est illégale');
+        }
+
+        return $this->redirectToRoute('app_serie_list');
+    }
+
 }
