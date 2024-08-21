@@ -24,5 +24,11 @@
 
     <a class="btn btn-primary" href="{{ path('app_serie_update', {'id' : serie.id}) }}">Editer</a>
 
+    <h2>Les Saisons</h2>
+    <ul>
+    {% for season in serie.seasons %}
+        <li>{{ season.number }}: {{ season.overview }} - {{ season.firstAirDate|date('d/m/Y') }}</li>
+    {% endfor %}
+    </ul>
 
 {% endblock %}
