@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Serie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,7 +17,7 @@ class SerieRepository extends ServiceEntityRepository
         parent::__construct($registry, Serie::class);
     }
 
-    public function findBestSeriesWithSpecificGenre(array $genres): array
+    public function findBestSeriesWithSpecificGenre(array $genres = []): array
     {
         $q = $this->createQueryBuilder('s')
             ->select('s.firstAirDate')
@@ -29,8 +30,10 @@ class SerieRepository extends ServiceEntityRepository
             ->andWhere('s.status = :status')
             ->setParameter(':status', 'returning');
 
-        $q->andWhere('s.genres in (:genres)')
-            ->setParameter(':genres', $genres);
+        if (!empty($genres)) {
+            $q->andWhere('s.genres in (:genres)')
+                ->setParameter(':genres', $genres);
+        }
 
         $expr = $q->expr();
 
@@ -52,6 +55,19 @@ class SerieRepository extends ServiceEntityRepository
             ->setParameter(':title', $title)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findSeriesWithSeasons(int $limit, int $offset): Paginator
+    {
+        $q = $this->createQueryBuilder('s')
+            ->addSelect('seasons')
+            ->leftJoin('s.seasons', 'seasons')
+            ->orderBy('s.popularity', 'DESC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery();
+
+        return new Paginator($q);
     }
 
 

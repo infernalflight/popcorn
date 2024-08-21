@@ -25,20 +25,25 @@ class SerieController extends AbstractController
 
         $criterias = ['status' => 'returning'];
 
-        $nbTotal = $serieRepository->count($criterias);
+        $nbTotal = $serieRepository->count();
 
         // requete avec fonctions natives du Respository
+/**
         $series = $serieRepository->findBy(
             $criterias,
             ['vote' => 'DESC'],
             $nbByPage,
             $offset
         );
+  **/
 
-        $series = $serieRepository->findAll();
+        //$series = $serieRepository->findAll();
+
+        $series = $serieRepository->findSeriesWithSeasons($nbByPage, $offset);
+
 
         // Requete avec QueryBuilder
-//        $series = $serieRepository->findBestSeriesWithSpecificGenre(['Gore', 'Drama']);
+        //$series = $serieRepository->findBestSeriesWithSpecificGenre();
 
         // requete avec DQL
 //        $series = $serieRepository->getBestSeriesInDQL();
