@@ -22,8 +22,10 @@
     </ul>
     {% endif %}
 
-    <a class="btn btn-primary" href="{{ path('app_serie_update', {'id' : serie.id}) }}">Editer</a>&nbsp;
-    <a class="btn btn-danger" href="{{ path('app_serie_delete', {'id': serie.id, 'token': csrf_token('delete'~serie.id)}) }}" onclick="return confirm('Etes vous sûr ???')">Supprimer</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href="{{ path('app_serie_update', {'id' : serie.id}) }}">Editer</a>&nbsp;
+        <a class="btn btn-danger" href="{{ path('app_serie_delete', {'id': serie.id, 'token': csrf_token('delete'~serie.id)}) }}" onclick="return confirm('Etes vous sûr ???')">Supprimer</a>
+    {% endif %}
 
     <h2>Les Saisons</h2>
     <ul>
