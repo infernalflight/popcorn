@@ -99,6 +99,10 @@ class SerieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($serie->getCategories() as $cat) {
+                $cat->addSeries($serie);
+            }
+
             $em->flush();
 
             $this->addFlash('success', 'Une série a été modifiée');
