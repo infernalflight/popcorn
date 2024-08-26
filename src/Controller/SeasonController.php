@@ -42,4 +42,12 @@ class SeasonController extends AbstractController
 
         return $this->redirectToRoute('app_serie_list');
     }
+
+
+    #[Route('/update', name:'_update')]
+    public function update(): Response
+    {
+        // Ceci est une nouvelle fonction
+    }
+
 }
