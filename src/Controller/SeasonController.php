@@ -33,4 +33,12 @@ class SeasonController extends AbstractController
             'form' => $form
         ]);
     }
+
+
+    #[Route('/update', name:'_update')]
+    public function update(): Response
+    {
+        // Ceci est une nouvelle fonction
+    }
+
 }
