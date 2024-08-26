@@ -36,7 +36,10 @@ class SeasonController extends AbstractController
 
     #[Route('/delete', name: '_delete')]
     public function delete() {
-
         // Fonction supprimer une saison
+
+        $season = new Season();
+
+        return $this->redirectToRoute('app_serie_list');
     }
 }
