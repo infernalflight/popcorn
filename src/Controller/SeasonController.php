@@ -33,4 +33,10 @@ class SeasonController extends AbstractController
             'form' => $form
         ]);
     }
+
+    #[Route('/delete', name: '_delete')]
+    public function delete() {
+
+        // Fonction supprimer une saison
+    }
 }
