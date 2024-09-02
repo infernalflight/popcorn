@@ -3,7 +3,10 @@
 {% block body %}
     <h1>Editer une série</h1>
 
-    {{ form(serie_form) }}
+    {{ form_start(serie_form) }}
+    {{ form_widget(serie_form) }}
+    <button type="submit" class="btn btn-primary" name="submit">OK</button>
+    {{ form_end(serie_form) }}
 
 
 {% endblock %}

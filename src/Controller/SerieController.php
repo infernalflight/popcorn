@@ -7,10 +7,12 @@ use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/series', name: 'app_serie')]
 #[IsGranted('ROLE_USER')]
@@ -133,6 +135,35 @@ class SerieController extends AbstractController
         }
 
         return $this->redirectToRoute('app_serie_list');
+    }
+
+    #[Route('/create_ajax', name: '_create_ajax')]
+    #[IsGranted('ROLE_CONTRIB')]
+    public function createAjax(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    {
+        $serie = new Serie();
+
+        $form = $this->createForm(SerieType::class, $serie);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $em->persist($serie);
+            $em->flush();
+
+            $this->addFlash('success', 'La série a été enregistrée');
+
+            return new Response(json_encode([
+                'id' => $serie->getId(),
+                'name' => $serie->getName(),
+            ]), Response::HTTP_OK);
+        }
+
+        return $this->render('serie/edit_ajax.html.twig', [
+            'form' => $form
+        ]);
     }
 
 }

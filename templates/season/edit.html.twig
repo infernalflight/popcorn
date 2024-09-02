@@ -5,4 +5,10 @@
 
     {{ form(form) }}
 
+    <a href="#" {{ stimulus_controller('modal-form', {
+        'formUrl': path('app_serie_create_ajax'),
+    }) }} data-action="modal-form#openModal">add</a>
+
+    {% include 'part/_modal.html.twig' with { modalTitle: 'Editer une série' } %}
+
 {% endblock %}

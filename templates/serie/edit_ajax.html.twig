@@ -1,0 +1,14 @@
+<div data-controller="modal-form">
+    {{ form_start(form) }}
+
+    {{ form_label(form) }}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+
+    <button class="btn btn-primary"
+            type="button"
+            data-action = 'modal-form#submitForm'
+    >OK</button>
+
+    {{ form_end(form) }}
+</div>
