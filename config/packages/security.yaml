@@ -21,6 +21,9 @@ security:
                 enable_csrf: true
             logout:
                 path: app_logout
+            login_throttling:
+                max_attempts: 3
+                interval: '3 minutes'
                 # where to redirect after logout
                 # target: app_any_route
 
